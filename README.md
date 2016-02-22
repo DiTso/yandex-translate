@@ -4,62 +4,50 @@
 [![Software License][ico-license]](LICENSE.md)
 [![Total Downloads][ico-downloads]][link-downloads]
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
-PSRs you support to avoid any confusion with users and contributors.
+This system is like Bing Translator or Google translate, but api is free for use and without strict limits. API offers text translation features for over 30 languages. 
+
+
+API reference in [English](https://tech.yandex.com/translate/doc/dg/concepts/api-overview-docpage/) / [Russian](https://tech.yandex.ru/translate/doc/dg/concepts/api-overview-docpage/)
+
+Don't forget to [Get yor own API key](https://tech.yandex.com/key/form.xml?service=trnsl)
+
+## Requirements
+
+- PHP 5.3 or higher
+- cURL
 
 ## Install
 
 Via Composer
 
 ``` bash
-$ composer require :vendor/:package_name
+$ composer require beeyev/yandex-translate
 ```
 
 ## Usage
 
 ``` php
-$skeleton = new League\Skeleton();
-echo $skeleton->echoPhrase('Hello, League!');
+try {
+    $tr = new Translate('yourApiKey');
+    $result = $tr->translate("Hey baby, what are you doing tonight?", 'fr');
+    
+    echo $result;                           // Hey bébé, tu fais quoi ce soir?
+    echo $result->sourceText();             // Hey baby, what are you doing tonight?
+    echo $result->translationDirection();   // en-fr
+    
+    var_dump($result->translation());       // array (size=1)
+                                            // 0 => string 'Hey bébé, tu fais quoi ce soir?'
+} catch (\Beeyev\YaTranslate\TranslateException $e) {
+    var_dump($e);
+}
 ```
-
-## Change log
-
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
-
-## Testing
-
-``` bash
-$ composer test
-```
-
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
-
-## Security
-
-If you discover any security related issues, please email :author_email instead of using the issue tracker.
-
-## Credits
-
-- [:author_name][link-author]
-- [All Contributors][link-contributors]
-
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/:vendor/:package_name.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/beeyev/yandex-translate.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/:vendor/:package_name/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/:vendor/:package_name.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/:vendor/:package_name.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/:vendor/:package_name.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/beeyev/yandex-translate.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/:vendor/:package_name
-[link-travis]: https://travis-ci.org/:vendor/:package_name
-[link-scrutinizer]: https://scrutinizer-ci.com/g/:vendor/:package_name/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/:vendor/:package_name
-[link-downloads]: https://packagist.org/packages/:vendor/:package_name
-[link-author]: https://github.com/beeyev
-[link-contributors]: ../../contributors
+[link-packagist]: https://packagist.org/packages/beeyev/yandex-translate
+[link-downloads]: https://packagist.org/packages/beeyev/yandex-translate
