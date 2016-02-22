@@ -51,14 +51,31 @@ class Translate {
         return $callResult['lang'];
     }
     
-    public function translate($text, $language, $htmlOutput = false, $options = null){
+    public function translate($text, $language, $format = null, $options = null){
+        
+        /*
+            html code autodetection
+            i will appreciate if you tell me a beetter way to detect html code in a string
+        */
+        if ($format == 'auto') {
+            if (is_array($text)) {
+                $textD = implode('',$text);
+            }
+            else {
+                $textD = $text;
+            }
+            $format = $textD == strip_tags($textD) ? 'plain' : 'html';
+        }
+        elseif ($format == null) {
+            $format = 'plain';
+        }
+        
         $callResult = $this->makeCall('translate', array(
             'text'      => $text,
             'lang'      => $language,
-            'format'    => $htmlOutput == true ? 'html' : 'plain',
-            'options'   => $hint
+            'format'    => $format,
         ));
-        return $callResult;
+        return new TranslationResponse($callResult, $text);
     }
     
     
@@ -70,8 +87,13 @@ class Translate {
             throw new TranslateException('Error: makeCall() - API key is not set');
         }
         
-        $requestParameters = http_build_query($requestParameters);
-        var_dump($requestParameters);
+        $text = '';
+        if (isset($requestParameters['text']) && is_array($requestParameters['text'])) {
+              $text = '&text=' . implode('&text=', $requestParameters['text']);
+              unset($requestParameters['text']);
+        }
+        
+        $requestParameters = http_build_query($requestParameters) . $text;
 
         $curlOptions = array(
                 CURLOPT_URL             => self::API_URL . $uri,
