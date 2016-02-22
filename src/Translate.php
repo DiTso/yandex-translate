@@ -1,44 +1,58 @@
-<?php 
+<?php
+/**
+ * MyClass Class Doc Comment
+ *
+ * @package MyPackage
+ * @author  Aleksandr Tebiev <tebiev@mail.com>
+ * @link    http://www.hashbangcode.com/
+ */
 namespace Beeyev\YaTranslate;
 
-
-class Translate {
+/**
+ * MyClass Class Doc Comment
+ */
+class Translate
+{
     
     /**
      * The API base URL.
      */
     const   API_URL = 'https://translate.yandex.net/api/v1.5/tr.json/';
     
-    private $apiKey;
+    private $_apiKey;
     
-    function __construct($apiKey = null){
+    function __construct($apiKey = null)
+    {
         if ($apiKey) {
             $this->setApiKey($apiKey);    
         }
     }
     
-    public function setApiKey($apiKey){
+    public function setApiKey($apiKey)
+    {
         if ($apiKey) {
-            $this->apiKey = $apiKey;    
-        }
-        else {
+            $this->_apiKey = $apiKey;    
+        } else {
             throw new TranslateException('Error: setApiKey() - Api key is required');
         }
         
         return $this;
     }
     
-    public function getApiKey(){
-        return $this->apiKey;
+    public function getApiKey()
+    {
+        return $this->_apiKey;
     }
     
-    public function getPossibleTranslations($detailsLang = null){
+    public function getPossibleTranslations($detailsLang = null)
+    {
         return $this->makeCall('getLangs', array(
                 'ui' => $detailsLang
             ));
     }
     
-    public function detectLanguage($text, $hint = null){
+    public function detectLanguage($text, $hint = null)
+    {
         if (is_array($hint)) {
             $hint = implode(',', $hint);
         }
@@ -51,22 +65,22 @@ class Translate {
         return $callResult['lang'];
     }
     
-    public function translate($text, $language, $format = null, $options = null){
+    public function translate($text, $language, $format = null, $options = null)
+    {
         
         /*
             html code autodetection
-            i will appreciate if you tell me a beetter way to detect html code in a string
+            i will appreciate if smb tell me a beetter way
+            to detect html code in a string
         */
         if ($format == 'auto') {
             if (is_array($text)) {
-                $textD = implode('',$text);
-            }
-            else {
+                $textD = implode('', $text);
+            } else {
                 $textD = $text;
             }
             $format = $textD == strip_tags($textD) ? 'plain' : 'html';
-        }
-        elseif ($format == null) {
+        } elseif ($format == null) {
             $format = 'plain';
         }
         
@@ -79,11 +93,11 @@ class Translate {
     }
     
     
-    protected function makeCall($uri, array $requestParameters) {
+    protected function makeCall($uri, array $requestParameters)
+    {
         if ($this->getApiKey()) {
             $requestParameters['key'] = $this->getApiKey();
-        }
-        else {
+        } else {
             throw new TranslateException('Error: makeCall() - API key is not set');
         }
         
@@ -98,7 +112,7 @@ class Translate {
         $curlOptions = array(
                 CURLOPT_URL             => self::API_URL . $uri,
                 CURLOPT_POSTFIELDS      => $requestParameters,
-                CURLOPT_RETURNTRANSFER  => TRUE,
+                CURLOPT_RETURNTRANSFER  => true,
                 CURLOPT_CONNECTTIMEOUT  => 20,
                 CURLOPT_TIMEOUT         => 60,
                 CURLOPT_SSL_VERIFYPEER  => false,
