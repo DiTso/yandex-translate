@@ -1,15 +1,26 @@
 {
-    "name": "beeyev/yandex_translate",
+    "name": "beeyev/yandex-translate",
+    "type": "library",
     "description": "Online service for machine translation for over 40 languages.",
+    "keywords": [
+        "beeyev",
+        "yandex-translate"
+    ],
+    "homepage": "https://github.com/beeyev/yandex-translate",
+    "license": "MIT",
     "authors": [
         {
             "name": "Aleksandr Tebiev",
-            "email": "tebiev@mail.com"
+            "email": "tebiev@mail.com",
+            "homepage": "https://github.com/beeyev"
         }
     ],
+    "require": {
+        "php" : ">=5.3"
+    },
     "autoload": {
-		"psr-4": {
-			"Beeyev\\YaTranslate\\": "src/"
-		}
-	}
+        "psr-4": {
+            "Beeyev\\YaTranslate\\": "src"
+        }
+    }
 }
