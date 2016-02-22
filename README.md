@@ -1,36 +1,53 @@
-## yandex_translate
-================
+# Yandex.Translate
 
-https://tech.yandex.ru/translate/
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Software License][ico-license]](LICENSE.md)
+[![Total Downloads][ico-downloads]][link-downloads]
 
-Php class for using Yandex translate system
+This system is like Bing Translator or Google translate, but api is free for use and without strict limits. API offers text translation features for over 30 languages. 
 
-This system is like Bing Translator or Google translate, but api is free for use and without strict limits.
 
-The API offers text translation features for over 30 languages. 
+API reference in [English](https://tech.yandex.com/translate/doc/dg/concepts/api-overview-docpage/) / [Russian](https://tech.yandex.ru/translate/doc/dg/concepts/api-overview-docpage/)
 
-To begin using this class you need to get your own API key, you can do it just in pair of clicks.
+Don't forget to [Get yor own API key](https://tech.yandex.com/key/form.xml?service=trnsl)
 
-Firstly create a Yandex account - https://passport.yandex.com/passport
+## Requirements
 
-Finally get your API key - http://api.yandex.ru/key/form.xml?service=trnsl
+- PHP 5.3 or higher
+- cURL
 
-Official api description and documentation in English - http://api.yandex.com/translate/
+## Install
 
-in russian - http://api.yandex.ru/translate/
+Via Composer
 
-**Example:**
-
+``` bash
+$ composer require beeyev/yandex-translate
 ```
-$key = 'YOUR_API_KEY';
-$tr = new \Beeyev\YaTranslate\Trnsl($key);
 
-$result = $tr->detect('Γεια');                                  //Detects language of the original text
-var_dump($result);
+## Usage
 
-$result = $tr->translate('Hello, how are you?','en-fr');        //Translate from French to English
-var_dump($result);
-
-$result = $tr->translate('Bonjour, comment allez-vous?','en');  //Detects language of the original text and translates in English
-var_dump($result);
+``` php
+try {
+    $tr = new Translate('yourApiKey');
+    $result = $tr->translate("Hey baby, what are you doing tonight?", 'fr');
+    
+    echo $result;                           // Hey bébé, tu fais quoi ce soir?
+    echo $result->sourceText();             // Hey baby, what are you doing tonight?
+    echo $result->translationDirection();   // en-fr
+    
+    var_dump($result->translation());       // array (size=1)
+                                            // 0 => string 'Hey bébé, tu fais quoi ce soir?'
+} catch (\Beeyev\YaTranslate\TranslateException $e) {
+    var_dump($e);
+}
 ```
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+[ico-version]: https://img.shields.io/packagist/v/beeyev/yandex-translate.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/beeyev/yandex-translate.svg?style=flat-square
+
+[link-packagist]: https://packagist.org/packages/beeyev/yandex-translate
+[link-downloads]: https://packagist.org/packages/beeyev/yandex-translate
