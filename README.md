@@ -27,6 +27,8 @@ $ composer require beeyev/yandex-translate
 ## Usage
 
 ``` php
+use Beeyev\YaTranslate\Translate;
+
 try {
     $tr = new Translate('yourApiKey');
     $result = $tr->translate("Hey baby, what are you doing tonight?", 'fr');
@@ -38,7 +40,7 @@ try {
     var_dump($result->translation());       // array (size=1)
                                             // 0 => string 'Hey bébé, tu fais quoi ce soir?'
 } catch (\Beeyev\YaTranslate\TranslateException $e) {
-    var_dump($e);
+    //Handle exception
 }
 ```
 ## License
